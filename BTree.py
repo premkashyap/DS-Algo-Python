@@ -1,0 +1,141 @@
+from Queue import Queue
+from DoubleLinkedList import DoublyLinkedList, DoublyLinkedListNode
+
+class BTreeNode:
+    def __init__(self, data=None, left=None, right=None):
+       self.data = data
+       self.left = left
+       self.right = right
+
+    def __str__(self):
+        print(str(self.data))
+
+    def insert(self, data):
+        if self.data > data:
+            if self.left is not None:
+                self.left.insert(data)
+            else:
+                self.left = BTreeNode(data)
+        elif self.data < data:
+            if self.right is not None:
+                self.right.insert(data)
+            else:
+                self.right = BTreeNode(data)
+        else:
+            return
+
+    def find(self, data):
+        if self.data > data:
+            return self.right.find(data) if self.right is not None else False
+        elif self.data < data:
+            return self.left.find(data) if self.left is not None else False
+        else:
+            return True
+    
+    def inorder_traversal(self):
+        if self.left is not None:
+            self.left.inorder_traversal()
+        print(self.data)
+        if self.right is not None:
+            self.right.inorder_traversal()
+
+    def preorder_traversal(self):
+        print(self.data)
+        if self.left is not None:
+            self.left.preorder_traversal()
+        if self.right is not None:
+            self.right.preorder_traversal()
+        
+    def postorder_traversal(self):
+        if self.left is not None:
+            self.left.postorder_traversal()
+        if self.right is not None:
+            self.right.postorder_traversal()
+        print(self.data)
+
+    def levelorder_traversal(self):
+        queue = Queue()
+        print(self.data)
+        if(self.left is not None):
+            queue.enqueue(self.left)
+        if(self.right is not None):
+            queue.enqueue(self.right)
+        while len(queue) !=0:
+            queue.dequeue().data.levelorder_traversal()
+
+    def calculate_height(self):
+        return 1 + max(0 if self.left is None else self.left.calculate_height(), 0 if self.right is None else self.right.calculate_height())
+    
+    def print_leaf_nodes(self):
+        if self.left is None and self.right is None:
+            print(self.data)
+        if self.left is not None:
+            self.left.print_leaf_nodes()
+        if self.right is not None:
+            self.right.print_leaf_nodes()
+
+    def find_number_of_leaf_nodes(self):
+        if self.left is None and self.right is None:
+            return 1
+        else:
+            return (self.left.find_number_of_leaf_nodes() if self.left is not None else 0 ) + (self.right.find_number_of_leaf_nodes() if self.right is not None else 0) 
+        
+    def is_tree_balanced(self):
+        return (self.left.calculate_height() if self.left is not None else 0) == (self.right.calculate_height() if self.right is not None else 0)
+
+    def deletion(self, val):
+        if self.data == val:
+            self._deletion()
+        elif self.data > val:
+            self.left.deletion(val)
+        else:
+            self.right.deletion(val)
+
+    def _deletion(self):
+        if self.left is None and self.right is None:
+            return None
+        elif self.left is None and self.right is not None:
+            return self.right
+        elif self.right is None and self.left is not None:
+            return self.left
+        else:
+            temp =self.left
+            if self.right.left is None:
+                self.right.left = temp  
+                return self.right  
+            node = self.left.right
+            while node.right is not None:
+                node = node.right
+            node.left = temp
+            return node
+                
+
+if __name__ == '__main__':
+    Tree = BTreeNode(10)
+    Tree.insert(6)
+    Tree.insert(8)
+    Tree.insert(5)
+    Tree.insert(13)
+    Tree.insert(12)
+    Tree.insert(14)
+    Tree.insert(16)
+    Tree.inorder_traversal()
+    Tree.deletion(6)
+    print('value deleted. New Tree below')
+    Tree.inorder_traversal()
+
+    # Tree.inorder_traversal()
+    # print('-------------------------')
+    # Tree.postorder_traversal()
+    # print('-------------------------')
+    # Tree.preorder_traversal()
+    # print('-------------------------')
+    # Tree.levelorder_traversal()
+    # print(Tree.find(100))
+    # print(Tree.find(10))
+    # Tree.print_leaf_nodes()
+    # print(Tree.find_number_of_leaf_nodes())
+
+    # Tree1 = BTreeNode(10)
+    # Tree1.insert(20)
+    # print(Tree1.is_tree_balanced())
