@@ -51,7 +51,7 @@ def combination(total_no_of_object, no_of_object_to_select, is_order_important=F
         return cache[total_no_of_object]/(cache[no_of_object_to_select]*cache[total_no_of_object- no_of_object_to_select])
 
 
-def subset_adding_to_a_number(arr, total):
+def number_of_subset_adding_to_a_number(arr, total):
     #cache
     cache = {}
 
@@ -77,7 +77,7 @@ def subset_adding_to_a_number(arr, total):
     return _subset_adding_to_a_number(arr, total, len(arr)-1, cache)
 
 
-def subset_adding_to_a_number_repeation_allowed(arr, total):
+def number_of_subset_adding_to_a_number_repeation_allowed(arr, total):
     #cache
     cache = {}
 
@@ -101,7 +101,6 @@ def subset_adding_to_a_number_repeation_allowed(arr, total):
             return return_val
 
     return _subset_adding_to_a_number(arr, total, len(arr)-1, cache)
-
 
 def knapsack(item, capacity):
     #cache
@@ -128,6 +127,17 @@ def knapsack(item, capacity):
         
     return _knapsack(item, capacity, 0, cache)
 
+def maximum_sum_continous_subarray(arr):
+    local_sum = global_sum=0
+    for i in range(len(arr)):
+        local_sum = max(arr[i], local_sum+arr[i])
+        global_sum = max(local_sum, global_sum)
+    return global_sum
+
+
+
+
 
 if __name__ == '__main__':
-    print(knapsack([(4,5),(2,3),(1,6)], 7))
+    #print(knapsack([(4,5),(2,3),(1,6)], 7))
+    print(maximum_sum_continous_subarray([-2,-3,4,-1,-2,1,5,-3]))

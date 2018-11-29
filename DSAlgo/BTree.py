@@ -83,13 +83,14 @@ class BTreeNode:
     def is_tree_balanced(self):
         return (self.left.calculate_height() if self.left is not None else 0) == (self.right.calculate_height() if self.right is not None else 0)
 
-    def deletion(self, val):
+    def delete(self, val):
         if self.data == val:
             self._deletion()
         elif self.data > val:
-            self.left.deletion(val)
+            self.left=self.left.delete(val)
         else:
-            self.right.deletion(val)
+            self.right=self.right.delete(val)
+        return self
 
     def _deletion(self):
         if self.left is None and self.right is None:
@@ -99,16 +100,23 @@ class BTreeNode:
         elif self.right is None and self.left is not None:
             return self.left
         else:
-            temp =self.left
             if self.right.left is None:
-                self.right.left = temp  
-                return self.right  
-            node = self.left.right
-            while node.right is not None:
-                node = node.right
-            node.left = temp
-            return node
+                self.data = self.right.data
+                temp = self.right
+                self.right= self.right.right
+                temp = None
+                return
+            node = self.right.left
+            parent = self.right
+            while node.left is not None:
+                parent = node
+                node = node.left
+            self.data=node.data
+            parent.left = node.right
+            return
+            
                 
+   
 
 if __name__ == '__main__':
     Tree = BTreeNode(10)
@@ -120,7 +128,7 @@ if __name__ == '__main__':
     Tree.insert(14)
     Tree.insert(16)
     Tree.inorder_traversal()
-    Tree.deletion(6)
+    Tree.delete(10)
     print('value deleted. New Tree below')
     Tree.inorder_traversal()
 
