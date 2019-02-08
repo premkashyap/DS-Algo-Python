@@ -83,5 +83,5 @@ if __name__ == '__main__':
     temp = DoublyLinkedList.create_from_list([1,2,3,4,4,5,6,6,7])
     print(temp)
     print(temp.find_midpoint().data)
-    temp.delete_dupes()
+    temp.reverse()
     print(temp)

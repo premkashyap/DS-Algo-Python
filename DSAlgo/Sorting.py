@@ -126,4 +126,5 @@ def pigeonhole_sort(lst, min_value, max_value):
 
 
 if __name__ == '__main__':
-    print(pigeonhole_sort([5,3,2,4,1], 1,5))
+    #print(pigeonhole_sort([5,3,2,4,1], 1,5))
+    print(count_sort([1, 4, 1, 2, 7, 5, 2], 0 ,9))

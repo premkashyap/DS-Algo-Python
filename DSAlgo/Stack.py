@@ -13,15 +13,15 @@ class Stack(BaseLinkedList):
     
     def pop(self):
         return BaseLinkedList.delete_end(self)
-    
+
 
 if __name__ == '__main__':
     lst = Stack()
-    temp = Stack.create_from_list([1,2,3,4,4,5,6,6,7])
+    temp = Stack.create_from_list([1,2])
     print(temp)
     temp.push(10)
     print(temp)
-    temp.pop()
+    print(temp.pop())
     temp.pop()
     temp.pop()
     print(temp)

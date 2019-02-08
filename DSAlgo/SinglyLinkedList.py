@@ -26,6 +26,16 @@ class BaseLinkedList:
             node = node.next_node
         node.next_node=new_node
 
+    def insert_node_end(self, node):
+        if self.head == None:
+            self.head = node
+            return
+        current_node = self.head
+        while current_node.next_node !=None:
+            current_node = current_node.next_node
+        current_node.next_node=node
+    
+
     def delete_start(self):
         temp = self.head
         self.head= self.head.next_node
@@ -149,14 +159,13 @@ class SinglyLinkedList(BaseLinkedList):
                 dictionary[node.data] = None
             node = node.next_node
 
-
-                
-
-
+def sort_list_inplace_with3elements(lst):
+    lst0, lst1, lst2 = [SinglyLinkedList() for _ in range(3)]
+    lst0.insert_start(SinglyLinkedListNode())
+    print(lst0)
+    print(lst1)
+    print(lst2)
 if __name__ == '__main__':
     lst = SinglyLinkedList()
-    temp = SinglyLinkedList.create_from_list([1,2,3,4,4,5,6,6,7])
-    print(temp)
-    print(temp.find_midpoint().data)
-    temp.delete_dupes()
-    print(temp)
+    temp = SinglyLinkedList.create_from_list([1,0,1,2,2,1,1,0])
+    sort_list_inplace_with3elements(temp)

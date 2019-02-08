@@ -12,7 +12,6 @@ def factorial(n):
         return cache[n]
     return _factorial(n, cache)
 
-
 def fibonacci(n):
     #cache
     cache = [None]*n
@@ -29,7 +28,6 @@ def fibonacci(n):
 
     _fibonacci(n, cache)
     return cache
-
 
 def combination(total_no_of_object, no_of_object_to_select, is_order_important=False):
     #cache 
@@ -49,7 +47,6 @@ def combination(total_no_of_object, no_of_object_to_select, is_order_important=F
         return cache[total_no_of_object]/cache[no_of_object_to_select] 
     else:
         return cache[total_no_of_object]/(cache[no_of_object_to_select]*cache[total_no_of_object- no_of_object_to_select])
-
 
 def number_of_subset_adding_to_a_number(arr, total):
     #cache
@@ -75,7 +72,6 @@ def number_of_subset_adding_to_a_number(arr, total):
             return return_val
 
     return _subset_adding_to_a_number(arr, total, len(arr)-1, cache)
-
 
 def number_of_subset_adding_to_a_number_repeation_allowed(arr, total):
     #cache
@@ -134,10 +130,124 @@ def maximum_sum_continous_subarray(arr):
         global_sum = max(local_sum, global_sum)
     return global_sum
 
+def longest_common_subsequence_length(A, B):
+    
+    cache = {}
 
+    def _longest_common_subsequence_recursive(A, B, len_A, len_B, cache):
+        '''
+            It is also called top down method as it breaks the problem into smaller problem. It is also called recursive method
+        '''
+        if len_A == 0 or len_B == 0 or len(A) == 0 or len(B) == 0:
+            return 0
+        key = str(len_A) + "|" + str(len_B)
 
+        if key in cache.keys():
+            return cache[key]
+        else:
+            if A[len_A -1] == B[len_B - 1]:
+                return _longest_common_subsequence_recursive(A, B, len_A-1, len_B-1, cache) + 1
+            else:
+                return max(_longest_common_subsequence_recursive(A, B, len_A-1, len_B, cache), _longest_common_subsequence_recursive(A, B, len_A, len_B-1, cache))
+    
+    
+    def _longest_common_subsequence_iterative(A, B):
+        len_A = len(A)
+        len_B = len(B)
+
+        if len_A == 0 or len_B == 0:
+            return 0
+
+        lookup = [[0 for i in range(len_B + 1)] for j in range(len_A + 1)]
+
+        for i in range(1, len_A + 1):
+            for j in range(1, len_B + 1):
+                if A[i-1] == B[j-1]:
+                    lookup[i][j] = lookup[i-1][j-1] + 1
+                else:
+                    lookup[i][j] = max(lookup[i][j-1], lookup[i-1][j])
+        
+        return lookup[len_A][len_B]
+    
+    return _longest_common_subsequence_iterative(A, B)
+
+def longest_common_subsequence_iterative_length(A, B, lookup=None):
+    len_A = len(A)
+    len_B = len(B)
+
+    if len_A == 0 or len_B == 0:
+        return 0
+
+    lookup = [[0 for i in range(len_B + 1)] for j in range(len_A + 1)]
+
+    for i in range(1, len_A + 1):
+        for j in range(1, len_B + 1):
+            if A[i-1] == B[j-1]:
+                lookup[i][j] = lookup[i-1][j-1] + 1
+            else:
+                lookup[i][j] = max(lookup[i][j-1], lookup[i-1][j])
+    
+    return lookup
+
+def finding_longest_common_subsequence(A, B):
+    len_A = len(A)
+    len_B = len(B)
+    lookup = longest_common_subsequence_iterative_length(A, B)
+    def _finding_longest_common_subsequence(A, B, len_A, len_B):
+        if len_A == 0 or len_B ==0:
+            return ''
+        elif A[len_A-1] == B[len_B-1]:
+            return _finding_longest_common_subsequence(A, B, len_A-1, len_B-1) + A[len_A-1]
+        elif lookup[len_A-1][len_B] > lookup[len_A][len_B-1]:
+            return _finding_longest_common_subsequence(A, B, len_A-1, len_B)
+        else:
+            return _finding_longest_common_subsequence(A, B, len_A, len_B-1)
+
+    return _finding_longest_common_subsequence(A, B, len_A, len_B)
+
+def finding_all_longest_common_subsequence(A, B):
+    len_A = len(A)
+    len_B = len(B)
+    lookup = longest_common_subsequence_iterative_length(A, B)
+    def _finding_longest_common_subsequence(A, B, len_A, len_B):
+        if len_A == 0 or len_B ==0:
+            return ['']
+        elif A[len_A-1] == B[len_B-1]:
+            list_of_subsequences = _finding_longest_common_subsequence(A, B, len_A-1, len_B-1)
+            list_of_subsequences = [x+A[len_A-1] for x in list_of_subsequences if list_of_subsequences is not None]
+            return list_of_subsequences
+        elif lookup[len_A-1][len_B] > lookup[len_A][len_B-1]:
+            return _finding_longest_common_subsequence(A, B, len_A-1, len_B)
+        elif lookup[len_A-1][len_B] < lookup[len_A][len_B-1]:
+            return _finding_longest_common_subsequence(A, B, len_A, len_B-1)
+        else:
+            left = _finding_longest_common_subsequence(A, B, len_A-1, len_B)
+            top = _finding_longest_common_subsequence(A, B, len_A, len_B-1)
+            return top + left
+
+    return _finding_longest_common_subsequence(A, B, len_A, len_B)
+
+def longest_palindrome_subsequence(A):
+    len_A = len(A)
+    cache = {}
+    def _longest_palindrome_subsequence(A, i, j, cache):
+        key = str(i) + '|' + str(j)
+        if key in cache.keys():
+            return cache[key]
+        if i>j:
+            return 0
+        if i == j:
+            return 1
+        if A[i] == A[j]:
+            cache[key] = _longest_palindrome_subsequence(A, i+1, j-1, cache) + 2
+        else:
+            cache[key] = max(_longest_palindrome_subsequence(A, i+1, j, cache), _longest_palindrome_subsequence(A, i, j-1, cache))
+        return cache[key]
+    
+    return _longest_palindrome_subsequence(A, 0, len(A)-1, cache)
 
 
 if __name__ == '__main__':
     #print(knapsack([(4,5),(2,3),(1,6)], 7))
-    print(maximum_sum_continous_subarray([-2,-3,4,-1,-2,1,5,-3]))
+    #print(finding_all_longest_common_subsequence('ABCBDAB', 'BDCABA'))
+    print(longest_palindrome_subsequence('ABBDCACB'))
