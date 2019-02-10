@@ -96,7 +96,6 @@ class DoublyLinkedList():
                     current.next.previous = current.previous
             current = current.next
 
-
     def reverse(self):
         current = self.head
         self.tail, self.head = self.head, self.tail
@@ -108,7 +107,9 @@ class DoublyLinkedList():
     
 
 if __name__ == '__main__':
-    lst = DoublyLinkedList.create_from_list([1,2,3])
+    lst = DoublyLinkedList.create_from_list([1,2,3,4,5,6,7,8])
+    print(lst)
+    lst.reverse()
     print(lst)
     lst.reverse()
     print(lst)

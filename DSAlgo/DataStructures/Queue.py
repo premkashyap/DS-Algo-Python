@@ -21,11 +21,18 @@ class Queue():
     def dequeue(self):
         return self.queue.pop()
     
+    def __len__(self):
+        return len(self.queue)
+
+    def __iter__(self):
+        for item in self.queue[::-1]:
+            yield item
+        raise StopIteration
+    
 
 if __name__ == '__main__':
     queue = Queue()
     queue.enqueue(10)
     queue.enqueue(20)
-    print(queue)
-    print(queue.dequeue())
-    print(queue)
+    for item in queue:
+        print(item)

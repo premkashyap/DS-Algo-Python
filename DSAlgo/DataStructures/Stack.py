@@ -20,10 +20,17 @@ class Stack():
     def __str__(self):
         return str(self.stack)
 
+    def __len__(self):
+        return len(self.stack)
+
+    def __iter__(self):
+        for item in self.stack[::-1]:
+            yield item
+        raise StopIteration
+
 if __name__ == '__main__':
     stack = Stack()
     stack.push(10)
     stack.push(20)
-    print(stack)
-    print(stack.pop())
-    print(stack)
+    for item in stack:
+        print(item)
