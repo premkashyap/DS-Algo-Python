@@ -83,8 +83,8 @@ class SinglyLinkedList:
     def __iter__(self):
         node = self.head
         while node is not None:
-            yield node.data
-            node = node.next_node
+            yield node
+            node = node.next
         raise StopIteration
     
     def find(self, value):
@@ -158,3 +158,5 @@ if __name__ == '__main__':
     lst = SinglyLinkedList.create_from_list([1,2,3,4,5,6])
     print(lst.find_midpoint())
     print(len(lst))
+    for item in lst:
+        print(item.data)
