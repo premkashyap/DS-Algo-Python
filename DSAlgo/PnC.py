@@ -52,7 +52,7 @@ def combinationUtil(arr, data, start,
 if __name__ == '__main__':
     a = [1, 2, 3, 4,5] 
     n = len(a)
-    #heapPermutation(a, n) 
+    heapPermutation(a, n) 
     r = 3
     data = [0]*r
     combinationUtil(a, data, 0,  

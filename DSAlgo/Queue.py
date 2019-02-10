@@ -1,27 +1,31 @@
-from SinglyLinkedList import BaseLinkedList
+class Queue():
+    
+    def __init__(self):
+        self.queue = []
+    
+    def peek(self):
+        return self.queue[-1]
 
-class Queue(BaseLinkedList):
+    def is_present(self, data):
+        return data in self.queue
 
-    def insert_start(self, data):
-        raise AttributeError
-
-    def delete_end(self):
-        raise AttributeError
+    def create_from_list(self, lst):
+        self.queue = lst
+    
+    def __str__(self):
+        return str(self.queue)
 
     def enqueue(self, data):
-        BaseLinkedList.insert_end(self, data)
+        self.queue.insert(0, data)
     
     def dequeue(self):
-        return BaseLinkedList.delete_start(self)
+        return self.queue.pop()
     
 
 if __name__ == '__main__':
-    lst = Queue()
-    temp = Queue.create_from_list([1,2,3,4,4,5,6,6,7])
-    print(temp)
-    temp.enqueue(10)
-    print(temp)
-    temp.dequeue()
-    temp.dequeue()
-    temp.dequeue()
-    print(temp)
+    queue = Queue()
+    queue.enqueue(10)
+    queue.enqueue(20)
+    print(queue)
+    print(queue.dequeue())
+    print(queue)

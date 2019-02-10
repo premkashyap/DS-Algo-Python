@@ -1,27 +1,29 @@
-from SinglyLinkedList import BaseLinkedList
-
-class Stack(BaseLinkedList):
-
-    def insert_start(self, data):
-        raise AttributeError
-
-    def delete_start(self):
-        raise AttributeError
+class Stack():
+    def __init__(self):
+        self.stack = []
 
     def push(self, data):
-        BaseLinkedList.insert_end(self, data)
+        self.stack.append(data)
     
     def pop(self):
-        return BaseLinkedList.delete_end(self)
+        return self.stack.pop()
+    
+    def peek(self):
+        return self.stack[-1]
 
+    def is_present(self, data):
+        return data in self.stack
+
+    def create_from_list(self, lst):
+        self.stack = lst[::-1]
+    
+    def __str__(self):
+        return str(self.stack)
 
 if __name__ == '__main__':
-    lst = Stack()
-    temp = Stack.create_from_list([1,2])
-    print(temp)
-    temp.push(10)
-    print(temp)
-    print(temp.pop())
-    temp.pop()
-    temp.pop()
-    print(temp)
+    stack = Stack()
+    stack.push(10)
+    stack.push(20)
+    print(stack)
+    print(stack.pop())
+    print(stack)
