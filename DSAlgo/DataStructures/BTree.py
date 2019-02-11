@@ -1,5 +1,5 @@
 from Queue import Queue
-from DoubleLinkedList import DoublyLinkedList, DoublyLinkedListNode
+from DoublyLinkedList import DoublyLinkedList, DoublyLinkedListNode
 
 class BTreeNode:
     def __init__(self, data=None, left=None, right=None):
@@ -54,26 +54,6 @@ class BTreeNode:
         print(self.data, end=' ')
 
 
-    def calculate_height(self):
-        return 1 + max(0 if self.left is None else self.left.calculate_height(), 0 if self.right is None else self.right.calculate_height())
-    
-    def print_leaf_nodes(self):
-        if self.left is None and self.right is None:
-            print(self.data)
-        if self.left is not None:
-            self.left.print_leaf_nodes()
-        if self.right is not None:
-            self.right.print_leaf_nodes()
-
-    def find_number_of_leaf_nodes(self):
-        if self.left is None and self.right is None:
-            return 1
-        else:
-            return (self.left.find_number_of_leaf_nodes() if self.left is not None else 0 ) + (self.right.find_number_of_leaf_nodes() if self.right is not None else 0) 
-        
-    def is_tree_balanced(self):
-        return (self.left.calculate_height() if self.left is not None else 0) == (self.right.calculate_height() if self.right is not None else 0)
-
     def delete(self, val):
         if self.data == val:
             self._deletion()
@@ -109,17 +89,34 @@ class BTreeNode:
     def sum_of_all_nodes(self):
         return self.data + (self.left.sum_of_all_nodes() if self.left is not None else 0 ) + (self.right.sum_of_all_nodes() if self.right is not None else 0)
 
-    def LowestCommonAncestor(self, node1, node2):
-        if (self.data >= node1 and self.data <= node2) or (self.data <= node1 and self.data >=node2):
-            return self
-        elif self.data >= node1 and self.data >= node2:
-            return  self.left.LowestCommonAncestor(node1, node2)
-        elif self.data <= node1 and self.data <= node2:
-            return self.right.LowestCommonAncestor(node1, node2)
+def LowestCommonAncestor(root, v1, v2):
+        if root.info > v1 and root.info > v2:
+            return LowestCommonAncestor(root.left, v1, v2)
+        elif root.info < v1 and root.info < v2:
+            return LowestCommonAncestor(root.right, v1, v2)
         else:
-            return None
+            return root
 
-    
+def height(root):
+    return 0 if root.left is None and root.right is None else 1 + max(0 if root.left is None else height(root.left), 0 if root.right is None else height(root.right))
+
+def is_tree_balanced(root):
+    return (height(root.left) if root.left is not None else 0) == (height(root.right) if root.right is not None else 0)   
+
+def print_leaf_nodes(root):
+    if root.left is None and root.right is None:
+        print(root.data, end=' ')
+    elif root.left is not None:
+        print_leaf_nodes(root.left)
+    elif root.right is not None:
+        print_leaf_nodes(root.right)
+
+def number_of_leaf_nodes(root):
+    if root.left is None and root.right is None:
+        return 1
+    else:
+        return (number_of_leaf_nodes(root.left) if root.left is not None else 0 ) + (number_of_leaf_nodes(root.right) if root.right is not None else 0) 
+        
 def _vertical_view(BTreeNode, i, lookup):
     if BTreeNode is None:
         return
