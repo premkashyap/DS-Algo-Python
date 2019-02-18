@@ -124,7 +124,7 @@ def knapsack(item, capacity):
     return _knapsack(item, capacity, 0, cache)
 
 def maximum_sum_continous_subarray(arr):
-    local_sum = global_sum=0
+    local_sum = global_su = 0
     for i in range(len(arr)):
         local_sum = max(arr[i], local_sum+arr[i])
         global_sum = max(local_sum, global_sum)

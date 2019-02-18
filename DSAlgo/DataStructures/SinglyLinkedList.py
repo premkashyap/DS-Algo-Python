@@ -134,18 +134,19 @@ class SinglyLinkedList:
             behind = behind.next
         return behind
     
-    def delete_dupes(self):
-        dictionary = {}
-        node = self.head
-        previous = None
-        while node is not None:
-            if node.data in dictionary.keys():
-                previous.next = node.next
-            else:
-                dictionary[node.data] = None
+
+def delete_dupes(head):
+    dictionary = {}
+    node = head
+    previous = None
+    while node is not None:
+        if node.data in dictionary.keys():
+            previous.next = node.next
+        else:
+            dictionary[node.data] = None
             previous = node
-            node = node.next
-           
+        node = node.next 
+    return head         
 
 def sort_list_inplace_with3elements(lst):
     lst0, lst1, lst2 = [SinglyLinkedList() for _ in range(3)]
@@ -153,6 +154,20 @@ def sort_list_inplace_with3elements(lst):
     print(lst0)
     print(lst1)
     print(lst2)
+
+
+def has_cycle(head):
+    if head is None or head.next is None:
+        return True
+    fast = head
+    slow = head
+    while fast is not None and fast.next is not None:
+        fast = fast.next.next
+        slow = slow.next
+        if fast == slow:
+            return True
+    return False
+
 
 if __name__ == '__main__':
     lst = SinglyLinkedList.create_from_list([1,2,3,4,5,6])

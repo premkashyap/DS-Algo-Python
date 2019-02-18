@@ -195,23 +195,24 @@ def side_view(BTreeNode):
     for key in sorted(side_view.keys()):
         print(side_view[key])
 
-def mirror_image_tree(BTreeNode):
-    if BTreeNode == None:
+def mirror_image_tree(root):
+    if root == None:
         return 
-    BTreeNode.left, BTreeNode.right = BTreeNode.right, BTreeNode.left
-    mirror_image_tree(BTreeNode.left)
-    mirror_image_tree(BTreeNode.right)
+    root.left, root.right = root.right, root.left
+    mirror_image_tree(root.left)
+    mirror_image_tree(root.right)
 
-def levelorder_traversal(BTreeNode):
+def levelorder_traversal(root):
     queue = []
-    queue.append(BTreeNode)
-    while len(queue) != 0:
-        node = queue.pop()
+    node = root
+    while node:
         print(node.data, end = ' ')
-        if(node.left is not None):
-            queue.insert(0, node.left)
-        if(node.right is not None):
-            queue.insert(0, node.right)
+        if node.left is not None:
+            queue.append(node.left)
+        if node.right is not None:
+            queue.append(node.right)
+        node = queue.pop(0)
+
 def zig_zag_level_order(node):
     if node is None:
         return
