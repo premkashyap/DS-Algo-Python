@@ -22,7 +22,7 @@ class SinglyLinkedList:
             self.head = new_node
             return
         node = self.head
-        while node.next !=None:
+        while node.next is not None:
             node = node.next
         node.next=new_node
 
@@ -63,6 +63,17 @@ class SinglyLinkedList:
         if node is None:
             return
         previous.next = node.next
+
+    def delete_at_position(self, position):
+        if position == 0:
+            self.head = self.head.next
+        else:
+            i = 0
+            node = self.head
+            while i < position-1:
+                i+=1
+                node = node.next
+            node.next = node.next.next if node.next is not None else None
             
         
     def __str__(self):
@@ -133,20 +144,38 @@ class SinglyLinkedList:
             node = node.next
             behind = behind.next
         return behind
-    
+
+def getNodeFromTail(head, positionFromTail):
+    current = result = head
+    pos = 0
+    while current is not None:
+        if pos > positionFromTail:
+            result = result.next
+        pos+=1
+        current = current.next
+    return result.data    
+
+def reversePrint(head):
+    stack = []
+    node = head
+    while node is not None:
+        stack.append(node.data)
+        node = node.next
+    while len(stack) != 0:
+        print(stack.pop())
 
 def delete_dupes(head):
-    dictionary = {}
+    data_lookup = {}
     node = head
     previous = None
     while node is not None:
-        if node.data in dictionary.keys():
-            previous.next = node.next
-        else:
-            dictionary[node.data] = None
+        if node.data not in data_lookup.keys():
+            data_lookup[node.data] = None
             previous = node
-        node = node.next 
-    return head         
+        else:
+            previous.next = node.next
+        node = node.next      
+    return head      
 
 def sort_list_inplace_with3elements(lst):
     lst0, lst1, lst2 = [SinglyLinkedList() for _ in range(3)]
@@ -168,6 +197,33 @@ def has_cycle(head):
             return True
     return False
 
+def deleteNode(head, position):
+    if position == 0:
+        return head.next
+    head.next = deleteNode(head.next , position-1)
+    return head
+
+def compare_lists(llist1, llist2):
+    if llist1 is None and llist2 is None:
+        return True
+    elif (llist1 is None) or (llist2 is None):
+        return False
+    else:
+        return (llist1.data == llist2.data) and compare_lists(llist1.next, llist2.next)
+
+def mergeLists(head1, head2):
+    if head1 is None and head2 is None:
+        return
+    elif head1 is None:
+        return head2
+    elif head2 is None:
+        return head1
+    elif head1.data < head2.data:
+        head1.next = mergeLists(head1.next, head2)
+        return head1
+    else:
+        head2.next = mergeLists(head1, head2.next)
+        return head2
 
 if __name__ == '__main__':
     lst = SinglyLinkedList.create_from_list([1,2,3,4,5,6])
