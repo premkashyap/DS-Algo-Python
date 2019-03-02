@@ -107,6 +107,18 @@ def _permutation_string(perm, str):
         _permutation_string(perm +str[i], str[:i]+str[i+1:])
 
 
+def naive_substring_search(string, substring):
+    string_length = len(string)
+    substring_length = len(substring)
+    for i in range(string_length-substring_length+1):
+        j=0
+        for j in range(substring_length):
+            if substring[j] != string[i+j]:
+                break
+        if j == substring_length-1:
+            return i
+    return -1
+
 
 if __name__ == '__main__':
-    print(permutations_of_string('1234'))
+    print(naive_substring_search('aabiaab', 'abi'))

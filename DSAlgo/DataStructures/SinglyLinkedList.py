@@ -156,13 +156,10 @@ def getNodeFromTail(head, positionFromTail):
     return result.data    
 
 def reversePrint(head):
-    stack = []
-    node = head
-    while node is not None:
-        stack.append(node.data)
-        node = node.next
-    while len(stack) != 0:
-        print(stack.pop())
+    if head is None:
+        return
+    reversePrint(head.next)
+    print(head.data)
 
 def delete_dupes(head):
     data_lookup = {}
