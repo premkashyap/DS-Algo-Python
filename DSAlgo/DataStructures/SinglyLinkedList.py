@@ -184,7 +184,7 @@ def sort_list_inplace_with3elements(lst):
 
 def has_cycle(head):
     if head is None or head.next is None:
-        return True
+        return False
     fast = head
     slow = head
     while fast is not None and fast.next is not None:

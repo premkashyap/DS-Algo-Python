@@ -246,6 +246,27 @@ def longest_palindrome_subsequence(A):
     
     return _longest_palindrome_subsequence(A, 0, len(A)-1, cache)
 
+def minJumps(arr, n): 
+    jumps = [0 for i in range(n)] 
+  
+    if (n == 0) or (arr[0] == 0): 
+        return float('inf') 
+  
+    jumps[0] = 0
+  
+    # Find the minimum number of  
+    # jumps to reach arr[i] from  
+    # arr[0] and assign this  
+    # value to jumps[i] 
+    for i in range(1, n): 
+        jumps[i] = float('inf') 
+        for j in range(i): 
+            if (i <= j + arr[j]) and (jumps[j] != float('inf')): 
+                jumps[i] = min(jumps[i], jumps[j] + 1) 
+                break
+    
+    return jumps[n-1] 
+
 
 if __name__ == '__main__':
     #print(knapsack([(4,5),(2,3),(1,6)], 7))
