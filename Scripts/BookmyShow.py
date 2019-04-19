@@ -41,7 +41,7 @@ def is_show_available(venue_name, venue_code, date, show_id):
 
 count = 0
 while True:
-    if is_show_available(venue_name, venue_code, date, show_id):
+    if not is_show_available(venue_name, venue_code, date, show_id):
         print("Available")
         if count < 10:
             send_email(GMAIL_USER, GMAIL_PASS, SUBJECT, TEXT, TO)
