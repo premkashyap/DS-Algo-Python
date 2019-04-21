@@ -4,11 +4,14 @@ import smtplib
 import time
 import datetime
 
-venue_code ='AMBH' #this can be found by inspecting the element data-id for the venue where you would like to watch
 date = '20190426'
-venue_name = 'amb-cinemas-gachibowli'
 show_ids = ['ET00100559', 'ET00090482']
 delay=900 #timegap in seconds between 2 script runs
+
+venues = {
+    'AMBH':'amb-cinemas-gachibowli'
+    #,'PIHM':'pvr-icon-hitech-madhapur-hyderabad'
+}
 
 hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -24,9 +27,8 @@ TO = 'kashyap18.prem@gmail.com' #mail id for which you want to get alerted
 GMAIL_USER = 'alerts.premkashyap@gmail.com'
 GMAIL_PASS = 'Alerts.887'
 SUBJECT = 'Tickets are now available, Book fast'
-TEXT = 'The tickets are now available for the End Game show at the venue ' + venue_code
 
-def send_email(username, password, subject, text, to):
+def send_email(username, password, subject, venue_code, to):
     print("Sending Email")
     smtpserver = smtplib.SMTP("smtp.gmail.com",587)
     smtpserver.ehlo()
@@ -36,6 +38,7 @@ def send_email(username, password, subject, text, to):
     header = 'To:' + to + '\n' + 'From: ' + username
     header = header + '\n' + 'Subject:' + subject + '\n'
     print(header)
+    text = 'The tickets are now available for the End Game show at the venue ' + venue_code
     msg = header + '\n' + text + ' \n\n'
     smtpserver.sendmail(username, to, msg)
     smtpserver.close()
@@ -48,13 +51,14 @@ def is_show_available(venue_name, venue_code, date, show_id):
 
 count = 0
 while True:
-    if is_show_available(venue_name, venue_code, date, show_ids):
-        print("Available")
-        if count < 10:
-            send_email(GMAIL_USER, GMAIL_PASS, SUBJECT, TEXT, TO)
-            count+=1
-        else:
-            exit(0)
-    else :
-        print(f"Not available yet")
+    for venue_code,venue_name in venues.items():
+        if is_show_available(venue_name, venue_code, date, show_ids):
+            print(f"Available at {venue_name}")
+            if count < 10:
+                send_email(GMAIL_USER, GMAIL_PASS, SUBJECT, venue_code, TO)
+                count+=1
+            else:
+                exit(0)
+        else :
+            print(f"Not available yet at {venue_name}")
     time.sleep(delay)
