@@ -8,7 +8,14 @@ venue_code ='AMBH' #this can be found by inspecting the element data-id for the 
 date = '20190426'
 venue_name = 'amb-cinemas-gachibowli'
 show_ids = ['ET00100559', 'ET00090482']
-delay=300 #timegap in seconds between 2 script runs
+delay=900 #timegap in seconds between 2 script runs
+
+hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+       'Accept-Encoding': 'none',
+       'Accept-Language': 'en-US,en;q=0.8',
+       'Connection': 'keep-alive'}
 
 TO = 'kashyap18.prem@gmail.com' #mail id for which you want to get alerted
 # Please add your username and password here, and make sure you 
@@ -34,7 +41,7 @@ def send_email(username, password, subject, text, to):
     smtpserver.close()
 
 def is_show_available(venue_name, venue_code, date, show_id):
-    req = urllib.request.Request(f"https://in.bookmyshow.com/buytickets/{venue_name}/cinema-hyd-{venue_code}-MT/{date}")
+    req = urllib.request.Request(f"https://in.bookmyshow.com/buytickets/{venue_name}/cinema-hyd-{venue_code}-MT/{date}", headers=hdr)
     page = urllib.request.urlopen(req)
     soup = BeautifulSoup(page)
     return any(show_id in str(soup) for show_id in show_ids)
