@@ -9,7 +9,8 @@ show_ids = ['ET00100559', 'ET00090482']
 delay=900 #timegap in seconds between 2 script runs
 
 venues = {
-    'AMBH':'amb-cinemas-gachibowli'
+    'AMBH':'amb-cinemas-gachibowli',
+    'MTHY':'platinum-movietime-gachibowli'
     #,'PIHM':'pvr-icon-hitech-madhapur-hyderabad'
 }
 
